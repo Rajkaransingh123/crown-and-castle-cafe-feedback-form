@@ -1,0 +1,535 @@
+/* =========================================================================
+   Crown & Castle Café — Feedback Form styles
+   Design tokens
+   -----------------------------------------------------------------------
+   Color:
+     --blush-bg-start   #fff2f6   page background gradient start
+     --blush-bg-end     #ffe0ec   page background gradient end
+     --card-bg          #fffaf8   card surface
+     --gold             #c9a227   primary gold (borders, icons)
+     --gold-light       #f4dd9a   light gold (gradients, hover)
+     --gold-dark        #8a6a1e   deep gold (shadows, strokes)
+     --rose-deep        #b0175a   headings, primary CTA
+     --rose             #e94f8a   accents, selected states
+     --rose-pale        #f6c7dc   hairline borders
+     --ink              #5b3a44   body text
+   Type:
+     display  "Playfair Display"   restaurant name, big numerals
+     script   "Great Vibes"        subtitle flourish
+     body     "Cormorant Garamond" question labels, longer copy
+     ui       "Poppins"            inputs, buttons, small UI text
+   ========================================================================= */
+
+:root {
+  --blush-bg-start: #fff2f6;
+  --blush-bg-end: #ffe0ec;
+  --card-bg: #fffaf8;
+  --gold: #c9a227;
+  --gold-light: #f4dd9a;
+  --gold-dark: #8a6a1e;
+  --rose-deep: #b0175a;
+  --rose: #e94f8a;
+  --rose-pale: #f6c7dc;
+  --ink: #5b3a44;
+  --ink-soft: #8a6672;
+  --success-bg: #e8f6ec;
+  --success-border: #7bc796;
+  --success-text: #2b6e3f;
+  --error-bg: #fdeceb;
+  --error-border: #e88b83;
+  --error-text: #a13327;
+
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --radius-sm: 9px;
+  --shadow-card: 0 18px 50px -20px rgba(176, 23, 90, 0.35), 0 4px 14px -6px rgba(138, 106, 30, 0.25);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Cormorant Garamond", "Georgia", serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.6), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(255, 255, 255, 0.5), transparent 45%),
+    linear-gradient(160deg, var(--blush-bg-start), var(--blush-bg-end));
+  background-attachment: fixed;
+}
+
+.page {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px 14px 40px;
+}
+
+/* ---------------------------- Card shell ------------------------------ */
+
+.card {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--gold);
+  box-shadow: var(--shadow-card);
+  padding: 28px 18px 30px;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1.5px solid var(--rose-pale);
+  border-radius: calc(var(--radius-lg) - 8px);
+  pointer-events: none;
+}
+
+/* corner flourishes — simple layered gold arcs, css-only */
+.corner {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.corner::before,
+.corner::after {
+  content: "";
+  position: absolute;
+  border: 2px solid var(--gold);
+}
+.corner::before {
+  inset: 6px;
+  border-radius: 50%;
+  border-color: transparent;
+  border-top-color: var(--gold);
+  border-left-color: var(--gold-light);
+}
+.corner::after {
+  inset: 16px;
+  border-radius: 50%;
+  border-color: transparent;
+  border-top-color: var(--rose);
+}
+.corner-tl { top: 6px; left: 6px; }
+.corner-tr { top: 6px; right: 6px; transform: scaleX(-1); }
+.corner-bl { bottom: 6px; left: 6px; transform: scaleY(-1); }
+.corner-br { bottom: 6px; right: 6px; transform: scale(-1, -1); }
+
+/* ---------------------------- Header ----------------------------------- */
+
+.card-header {
+  position: relative;
+  text-align: center;
+  padding: 4px 6px 14px;
+}
+
+.crown-wrap {
+  width: 84px;
+  margin: 0 auto 6px;
+  filter: drop-shadow(0 4px 6px rgba(138, 106, 30, 0.35));
+}
+.crown-svg { width: 100%; height: auto; display: block; }
+
+.eyebrow {
+  margin: 2px 0 4px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+
+.restaurant-name {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-weight: 800;
+  font-size: clamp(1.7rem, 6vw, 2.6rem);
+  color: var(--rose-deep);
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.form-title {
+  margin: 2px 0 10px;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(1.5rem, 5.5vw, 2.1rem);
+  color: var(--gold-dark);
+  line-height: 1;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px auto 0;
+  max-width: 260px;
+  color: var(--rose);
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.divider span { font-size: 0.95rem; }
+
+/* ---------------------------- Status banner ---------------------------- */
+
+.status-banner {
+  margin: 0 2px 16px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  text-align: center;
+  border: 1.5px solid transparent;
+}
+.status-success { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+.status-error { background: var(--error-bg); border-color: var(--error-border); color: var(--error-text); }
+
+/* ---------------------------- Form layout ------------------------------ */
+
+.feedback-form { position: relative; }
+
+.field-group {
+  margin: 0 0 20px;
+  border: none;
+  padding: 0;
+}
+
+.field { margin-bottom: 14px; }
+
+label,
+legend.question-label {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 0.86rem;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+}
+
+.required { color: var(--rose); }
+
+input[type="text"],
+input[type="tel"],
+textarea {
+  width: 100%;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  padding: 11px 13px;
+  border: 1.5px solid var(--rose-pale);
+  border-radius: var(--radius-sm);
+  background: #fffdfc;
+  color: var(--ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.18);
+}
+
+textarea { resize: vertical; min-height: 90px; }
+
+.char-count {
+  display: block;
+  text-align: right;
+  margin-top: 4px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+.field-error {
+  display: block;
+  margin-top: 6px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.76rem;
+  color: var(--error-text);
+}
+
+.instruction {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  color: var(--rose-deep);
+  background: linear-gradient(90deg, transparent, rgba(233, 79, 138, 0.08), transparent);
+  padding: 8px 6px;
+  border-radius: var(--radius-sm);
+  margin: 0 0 18px;
+}
+
+/* ---------------------------- Question groups --------------------------- */
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+.question {
+  border: none;
+  padding: 14px 4px;
+  margin: 0;
+  border-bottom: 1px dashed var(--rose-pale);
+}
+.question:last-child { border-bottom: none; }
+
+.question.has-error { animation: shake 0.28s ease; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.question-label {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: 1.08rem;
+  color: var(--ink);
+  margin-bottom: 10px;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.q-icon { font-size: 0.95rem; line-height: 1.3; }
+
+.option-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.option-choice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1.5px solid var(--rose-pale);
+  border-radius: 999px;
+  background: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.84rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+  min-height: 40px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.option-choice:active { transform: scale(0.97); }
+
+.option-choice input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.checkbox-visual {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  position: relative;
+  background: #fff;
+}
+
+.option-choice.selected {
+  border-color: var(--rose);
+  background: rgba(233, 79, 138, 0.08);
+}
+.option-choice.selected .checkbox-visual {
+  background: var(--rose);
+  border-color: var(--rose-deep);
+}
+.option-choice.selected .checkbox-visual::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(40deg);
+}
+
+.option-choice input:focus-visible ~ .checkbox-visual,
+.option-choice input:focus-visible ~ .option-text {
+  outline: 2px solid var(--gold-dark);
+  outline-offset: 2px;
+}
+
+/* ---------------------------- Rating (overall) -------------------------- */
+
+.rating-section { padding-top: 4px; }
+
+.rating-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rating-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--rose-pale);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rating-choice input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.stars {
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  flex: none;
+}
+.star-dim { color: var(--rose-pale); }
+
+.rating-word {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.rating-choice.selected {
+  border-color: var(--rose);
+  background: rgba(233, 79, 138, 0.08);
+}
+.rating-choice.selected .rating-word { color: var(--rose-deep); font-weight: 600; }
+
+/* ---------------------------- Actions ----------------------------------- */
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 13px 20px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+.btn:active { transform: scale(0.98); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+  color: #fff;
+  box-shadow: 0 10px 22px -8px rgba(176, 23, 90, 0.55);
+}
+.btn-primary:disabled { opacity: 0.75; cursor: not-allowed; }
+
+.btn-ghost {
+  background: #fff;
+  color: var(--gold-dark);
+  border: 1.5px solid var(--gold);
+}
+
+.btn-spinner {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #fff;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.form-footnote {
+  text-align: center;
+  font-family: "Great Vibes", cursive;
+  font-size: 1.1rem;
+  color: var(--gold-dark);
+  margin: 18px 0 0;
+}
+
+.page-footer {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  margin-top: 16px;
+}
+
+/* ---------------------------- Tablet / desktop -------------------------- */
+
+@media (min-width: 640px) {
+  .page { padding: 40px 24px 60px; }
+  .card { padding: 40px 40px 44px; border-radius: 28px; }
+  .card::before { inset: 12px; border-radius: 20px; }
+  .corner { width: 72px; height: 72px; }
+
+  .field-group.identity-fields,
+  .field-group:first-of-type {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .field-group:first-of-type .field { margin-bottom: 0; }
+
+  .questions-grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+  }
+  .question { border-bottom: 1px dashed var(--rose-pale); }
+
+  .form-actions { flex-direction: row-reverse; justify-content: center; }
+  .btn { min-width: 200px; }
+}
+
+@media (min-width: 900px) {
+  .page { max-width: 860px; }
+}
+
+/* ---------------------------- Reduced motion ---------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
