@@ -17,92 +17,17 @@
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJMZQTpt6zYLdj87hZp4PJkKMqdycQyiY2GwdffR6kPJNJEUv9E0VQ6Q6TU0OVUKqv/exec';   
 
   /* -----------------------------------------------------------------------
-     1. Question data — drives the questions-grid markup.
-     Each id becomes the <input name="..."> used in FormData / JSON payload.
+     1. Question ids used for validation.
+     The questions themselves are now written directly in index.html
+     (fieldset[data-question-id] blocks) rather than generated here.
      ----------------------------------------------------------------------- */
-  const FEEDBACK_QUESTIONS = [
-    { id: 'taste', icon: '👑', num: 1, label: 'How did you like the taste of our food?', options: ['Loved It', 'Liked It', 'It Was Nice'] },
-    { id: 'presentation', icon: '👑', num: 2, label: 'How was the presentation of the food?', options: ['Beautiful', 'Nice', 'Good'] },
-    { id: 'service', icon: '👑', num: 3, label: 'How was our service?', options: ['Excellent', 'Very Good', 'Good'] },
-    { id: 'cleanliness', icon: '👑', num: 4, label: 'How was the cleanliness of our café?', options: ['Excellent', 'Very Good', 'Good'] },
-    { id: 'value_for_money', icon: '👑', num: 5, label: 'How would you rate the value for money?', options: ['Excellent', 'Very Good', 'Good'] },
-    { id: 'favorite_item', icon: '👑', num: 6, label: 'Which item did you enjoy the most?', options: ['Sandwich', 'Wrap', 'Drink / Snack'] },
-    { id: 'recommend', icon: '👑', num: 7, label: 'Would you recommend Crown & Castle Café to your friends?', options: ['Definitely', 'Sure', 'Maybe'] },
-    { id: 'satisfaction', icon: '👑', num: 8, label: 'How satisfied are you with your overall experience?', options: ['Very Satisfied', 'Satisfied', 'Happy'] },
-    { id: 'revisit', icon: '👑', num: 9, label: 'Would you visit us again?', options: ['Yes, Definitely', 'Yes', 'Maybe'] }
+  const REQUIRED_QUESTION_IDS = [
+    'taste', 'presentation', 'service', 'cleanliness', 'value_for_money',
+    'favorite_item', 'recommend', 'satisfaction', 'revisit'
   ];
 
-  const REQUIRED_QUESTION_IDS = FEEDBACK_QUESTIONS.map(function (q) { return q.id; });
-
   /* -----------------------------------------------------------------------
-     2. Render question groups into #questionsGrid
-     ----------------------------------------------------------------------- */
-  function slug(str) {
-    return String(str).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
-  }
-
-  function renderQuestions() {
-    const grid = document.getElementById('questionsGrid');
-    const frag = document.createDocumentFragment();
-
-    FEEDBACK_QUESTIONS.forEach(function (q) {
-      const fieldset = document.createElement('fieldset');
-      fieldset.className = 'question';
-      fieldset.setAttribute('data-question-id', q.id);
-
-      const legend = document.createElement('legend');
-      legend.className = 'question-label';
-      legend.innerHTML =
-        '<span class="q-icon" aria-hidden="true">' + q.icon + '</span>' +
-        q.num + '. ' + q.label + ' <span class="required">*</span>';
-      fieldset.appendChild(legend);
-
-      const optionsWrap = document.createElement('div');
-      optionsWrap.className = 'option-row';
-
-      q.options.forEach(function (optionLabel, i) {
-        const optId = q.id + '_' + slug(optionLabel);
-        const wrapper = document.createElement('label');
-        wrapper.className = 'option-choice';
-        wrapper.setAttribute('for', optId);
-
-        const input = document.createElement('input');
-        input.type = 'radio';
-        input.name = q.id;
-        input.id = optId;
-        input.value = slug(optionLabel);
-        input.required = true;
-
-        const box = document.createElement('span');
-        box.className = 'checkbox-visual';
-        box.setAttribute('aria-hidden', 'true');
-
-        const text = document.createElement('span');
-        text.className = 'option-text';
-        text.textContent = optionLabel;
-
-        wrapper.appendChild(input);
-        wrapper.appendChild(box);
-        wrapper.appendChild(text);
-        optionsWrap.appendChild(wrapper);
-      });
-
-      const err = document.createElement('small');
-      err.className = 'field-error';
-      err.id = q.id + 'Error';
-      err.hidden = true;
-      err.textContent = 'Please choose an option.';
-
-      fieldset.appendChild(optionsWrap);
-      fieldset.appendChild(err);
-      frag.appendChild(fieldset);
-    });
-
-    grid.appendChild(frag);
-  }
-
-  /* -----------------------------------------------------------------------
-     3. Selection visuals — highlight the chosen chip/star row
+     2. Selection visuals — highlight the chosen chip/star row
      ----------------------------------------------------------------------- */
   function wireSelectionHighlighting() {
     document.addEventListener('change', function (e) {
@@ -221,6 +146,31 @@
   }
 
   /* -----------------------------------------------------------------------
+     7b. Thank-you screen — swaps the form out, Google-Forms style
+     ----------------------------------------------------------------------- */
+  function showThankYou() {
+    const form = document.getElementById('feedbackForm');
+    const thankYou = document.getElementById('thankYouScreen');
+    hideStatus();
+    form.hidden = true;
+    thankYou.hidden = false;
+    thankYou.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function showFormAgain() {
+    const form = document.getElementById('feedbackForm');
+    const thankYou = document.getElementById('thankYouScreen');
+    thankYou.hidden = true;
+    form.hidden = false;
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function wireThankYouScreen() {
+    const again = document.getElementById('submitAnotherBtn');
+    again.addEventListener('click', showFormAgain);
+  }
+
+  /* -----------------------------------------------------------------------
      8. Submit handling — posts straight to the Apps Script Web App.
      ----------------------------------------------------------------------- */
   function submitFeedback(payload) {
@@ -281,11 +231,11 @@
       submitFeedback(payload)
         .then(function (result) {
           if (result && result.success) {
-            showStatus('Thank you! Your feedback has been sent to Crown & Castle Café. ♥', 'success');
             form.reset();
             document.querySelectorAll('.option-choice.selected, .rating-choice.selected')
               .forEach(function (el) { el.classList.remove('selected'); });
             document.getElementById('charCount').textContent = '0';
+            showThankYou();
           } else {
             showStatus('Something went wrong. Please try again.', 'error');
           }
@@ -312,9 +262,9 @@
      Init
      ----------------------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', function () {
-    renderQuestions();
     wireSelectionHighlighting();
     wireCharCount();
     wireForm();
+    wireThankYouScreen();
   });
 })();
