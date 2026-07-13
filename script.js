@@ -104,13 +104,21 @@
     if (contact.length > 0 && !/^[0-9+\-\s]{7,15}$/.test(contact)) {
       isValid = false;
       contactError.hidden = false;
-      if (!firstInvalid.el) firstInvalid.el = form.contactNumber;
+      if (!firstInvalid.el) firstInvalid.el = form.contact_number;
     } else {
       contactError.hidden = true;
     }
 
     if (firstInvalid.el) {
       firstInvalid.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Move keyboard/screen-reader focus to the field too, not just scroll
+      // to it visually. Fieldsets/divs aren't focusable by default, so give
+      // them a temporary tabindex if they don't already have one.
+      var focusTarget = firstInvalid.el;
+      if (focusTarget.tabIndex === undefined || focusTarget.tabIndex < 0) {
+        focusTarget.setAttribute('tabindex', '-1');
+      }
+      focusTarget.focus({ preventScroll: true });
     }
 
     return isValid;
