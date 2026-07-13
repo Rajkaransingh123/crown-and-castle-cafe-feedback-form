@@ -310,6 +310,28 @@ textarea::placeholder {
   75% { transform: translateX(4px); }
 }
 
+/* Star-rating group error state (mirrors .question.has-error) */
+#ratingOptions.has-error { animation: shake 0.28s ease; }
+#ratingOptions.has-error .rating-choice {
+  border-color: var(--error-border);
+}
+
+/* Contact number input error state */
+input.has-error {
+  border-color: var(--error-border) !important;
+}
+
+/* Attention-grabbing blink applied to whichever field was actually
+   missed, on top of the existing shake/border-color error styles. */
+.field-blink {
+  animation: field-blink-glow 1.1s ease-out 2;
+}
+@keyframes field-blink-glow {
+  0%, 100% { box-shadow: none; }
+  20%, 60% { box-shadow: 0 0 0 4px rgba(233, 79, 138, 0.55); }
+  40%, 80% { box-shadow: 0 0 0 4px rgba(233, 79, 138, 0); }
+}
+
 .question-label {
   font-family: "Cormorant Garamond", serif;
   font-weight: 600;
