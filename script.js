@@ -90,12 +90,15 @@
     // Overall rating required
     const overallChecked = form.querySelector('input[name="overall_rating"]:checked');
     const ratingError = document.getElementById('ratingError');
+    const ratingGroup = document.getElementById('ratingOptions');
     if (!overallChecked) {
       isValid = false;
       ratingError.hidden = false;
-      if (!firstInvalid.el) firstInvalid.el = document.getElementById('ratingOptions');
+      ratingGroup.classList.add('has-error');
+      if (!firstInvalid.el) firstInvalid.el = ratingGroup;
     } else {
       ratingError.hidden = true;
+      ratingGroup.classList.remove('has-error');
     }
 
     // Contact number: optional, but if filled must look valid
@@ -104,9 +107,11 @@
     if (contact.length > 0 && !/^[0-9+\-\s]{7,15}$/.test(contact)) {
       isValid = false;
       contactError.hidden = false;
+      form.contact_number.classList.add('has-error');
       if (!firstInvalid.el) firstInvalid.el = form.contact_number;
     } else {
       contactError.hidden = true;
+      form.contact_number.classList.remove('has-error');
     }
 
     if (firstInvalid.el) {
@@ -119,6 +124,14 @@
         focusTarget.setAttribute('tabindex', '-1');
       }
       focusTarget.focus({ preventScroll: true });
+
+      // Blink/glow the field so it's unmistakable which one was missed.
+      // Class is removed and re-added on a delay so the animation replays
+      // even if the same field is still invalid on a repeat submit.
+      firstInvalid.el.classList.remove('field-blink');
+      // eslint-disable-next-line no-unused-expressions
+      void firstInvalid.el.offsetWidth; // force reflow so the animation restarts
+      firstInvalid.el.classList.add('field-blink');
     }
 
     return isValid;
@@ -140,12 +153,17 @@
   /* -----------------------------------------------------------------------
      7. Status banner helper
      ----------------------------------------------------------------------- */
-  function showStatus(message, type) {
+  function showStatus(message, type, skipScroll) {
     const banner = document.getElementById('statusBanner');
     banner.textContent = message;
     banner.className = 'status-banner status-' + type;
     banner.hidden = false;
-    banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // When a specific field is already being scrolled to (missed-field
+    // validation case), skip the banner's own scroll so it doesn't
+    // override and pull the page back up to the top.
+    if (!skipScroll) {
+      banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   function hideStatus() {
@@ -230,7 +248,7 @@
       hideStatus();
 
       if (!validateForm(form)) {
-        showStatus('Please complete the required fields highlighted below.', 'error');
+        showStatus('Please complete the required fields highlighted below.', 'error', true);
         return;
       }
 
