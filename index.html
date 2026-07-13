@@ -20,21 +20,7 @@
       <div class="corner corner-tr" aria-hidden="true"></div>
 
       <div class="crown-wrap" aria-hidden="true">
-        <svg viewBox="0 0 100 70" class="crown-svg">
-          <polygon points="5,65 5,35 20,50 30,20 50,45 70,20 80,50 95,35 95,65"
-                   fill="url(#goldGrad)" stroke="#8a6a1e" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="20" cy="50" r="4" fill="#e94f8a"/>
-          <circle cx="50" cy="45" r="5" fill="#e94f8a"/>
-          <circle cx="80" cy="50" r="4" fill="#e94f8a"/>
-          <rect x="5" y="63" width="90" height="7" rx="2" fill="url(#goldGrad)" stroke="#8a6a1e" stroke-width="1.2"/>
-          <defs>
-            <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#f7dd8a"/>
-              <stop offset="50%" stop-color="#d9a92a"/>
-              <stop offset="100%" stop-color="#b9861a"/>
-            </linearGradient>
-          </defs>
-        </svg>
+        <img src="assets/crown.png" alt="" class="crown-img">
       </div>
 
       <p class="eyebrow">✦ We value your visit ✦</p>
@@ -66,7 +52,207 @@
       <p class="instruction">Please tick <strong>one</strong> option for each question.</p>
 
       <!-- Question groups -->
-      <div class="questions-grid" id="questionsGrid"></div>
+      <div class="questions-grid" id="questionsGrid">
+
+        <fieldset class="question" data-question-id="taste">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>1. How did you like the taste of our food? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="taste_loved_it">
+              <input type="radio" name="taste" id="taste_loved_it" value="loved_it" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Loved It</span>
+            </label>
+            <label class="option-choice" for="taste_liked_it">
+              <input type="radio" name="taste" id="taste_liked_it" value="liked_it" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Liked It</span>
+            </label>
+            <label class="option-choice" for="taste_it_was_nice">
+              <input type="radio" name="taste" id="taste_it_was_nice" value="it_was_nice" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">It Was Nice</span>
+            </label>
+          </div>
+          <small class="field-error" id="tasteError" hidden>Please choose an option.</small>
+        </fieldset>
+
+        <fieldset class="question" data-question-id="presentation">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>2. How was the presentation of the food? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="presentation_beautiful">
+              <input type="radio" name="presentation" id="presentation_beautiful" value="beautiful" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Beautiful</span>
+            </label>
+            <label class="option-choice" for="presentation_nice">
+              <input type="radio" name="presentation" id="presentation_nice" value="nice" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Nice</span>
+            </label>
+            <label class="option-choice" for="presentation_good">
+              <input type="radio" name="presentation" id="presentation_good" value="good" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Good</span>
+            </label>
+          </div>
+          <small class="field-error" id="presentationError" hidden>Please choose an option.</small>
+        </fieldset>
+
+        <fieldset class="question" data-question-id="service">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>3. How was our service? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="service_excellent">
+              <input type="radio" name="service" id="service_excellent" value="excellent" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Excellent</span>
+            </label>
+            <label class="option-choice" for="service_very_good">
+              <input type="radio" name="service" id="service_very_good" value="very_good" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Very Good</span>
+            </label>
+            <label class="option-choice" for="service_good">
+              <input type="radio" name="service" id="service_good" value="good" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Good</span>
+            </label>
+          </div>
+          <small class="field-error" id="serviceError" hidden>Please choose an option.</small>
+        </fieldset>
+
+        <fieldset class="question" data-question-id="cleanliness">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>4. How was the cleanliness of our café? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="cleanliness_excellent">
+              <input type="radio" name="cleanliness" id="cleanliness_excellent" value="excellent" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Excellent</span>
+            </label>
+            <label class="option-choice" for="cleanliness_very_good">
+              <input type="radio" name="cleanliness" id="cleanliness_very_good" value="very_good" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Very Good</span>
+            </label>
+            <label class="option-choice" for="cleanliness_good">
+              <input type="radio" name="cleanliness" id="cleanliness_good" value="good" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Good</span>
+            </label>
+          </div>
+          <small class="field-error" id="cleanlinessError" hidden>Please choose an option.</small>
+        </fieldset>
+
+        <fieldset class="question" data-question-id="value_for_money">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>5. How would you rate the value for money? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="value_for_money_excellent">
+              <input type="radio" name="value_for_money" id="value_for_money_excellent" value="excellent" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Excellent</span>
+            </label>
+            <label class="option-choice" for="value_for_money_very_good">
+              <input type="radio" name="value_for_money" id="value_for_money_very_good" value="very_good" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Very Good</span>
+            </label>
+            <label class="option-choice" for="value_for_money_good">
+              <input type="radio" name="value_for_money" id="value_for_money_good" value="good" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Good</span>
+            </label>
+          </div>
+          <small class="field-error" id="value_for_moneyError" hidden>Please choose an option.</small>
+        </fieldset>
+
+        <fieldset class="question" data-question-id="favorite_item">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>6. Which item did you enjoy the most? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="favorite_item_sandwich">
+              <input type="radio" name="favorite_item" id="favorite_item_sandwich" value="sandwich" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Sandwich</span>
+            </label>
+            <label class="option-choice" for="favorite_item_wrap">
+              <input type="radio" name="favorite_item" id="favorite_item_wrap" value="wrap" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Wrap</span>
+            </label>
+            <label class="option-choice" for="favorite_item_drink_snack">
+              <input type="radio" name="favorite_item" id="favorite_item_drink_snack" value="drink_snack" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Drink / Snack</span>
+            </label>
+          </div>
+          <small class="field-error" id="favorite_itemError" hidden>Please choose an option.</small>
+        </fieldset>
+
+        <fieldset class="question" data-question-id="recommend">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>7. Would you recommend Crown &amp; Castle Café to your friends? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="recommend_definitely">
+              <input type="radio" name="recommend" id="recommend_definitely" value="definitely" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Definitely</span>
+            </label>
+            <label class="option-choice" for="recommend_sure">
+              <input type="radio" name="recommend" id="recommend_sure" value="sure" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Sure</span>
+            </label>
+            <label class="option-choice" for="recommend_maybe">
+              <input type="radio" name="recommend" id="recommend_maybe" value="maybe" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Maybe</span>
+            </label>
+          </div>
+          <small class="field-error" id="recommendError" hidden>Please choose an option.</small>
+        </fieldset>
+
+        <fieldset class="question" data-question-id="satisfaction">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>8. How satisfied are you with your overall experience? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="satisfaction_very_satisfied">
+              <input type="radio" name="satisfaction" id="satisfaction_very_satisfied" value="very_satisfied" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Very Satisfied</span>
+            </label>
+            <label class="option-choice" for="satisfaction_satisfied">
+              <input type="radio" name="satisfaction" id="satisfaction_satisfied" value="satisfied" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Satisfied</span>
+            </label>
+            <label class="option-choice" for="satisfaction_happy">
+              <input type="radio" name="satisfaction" id="satisfaction_happy" value="happy" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Happy</span>
+            </label>
+          </div>
+          <small class="field-error" id="satisfactionError" hidden>Please choose an option.</small>
+        </fieldset>
+
+        <fieldset class="question" data-question-id="revisit">
+          <legend class="question-label"><span class="q-icon" aria-hidden="true">👑</span>9. Would you visit us again? <span class="required">*</span></legend>
+          <div class="option-row">
+            <label class="option-choice" for="revisit_yes_definitely">
+              <input type="radio" name="revisit" id="revisit_yes_definitely" value="yes_definitely" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Yes, Definitely</span>
+            </label>
+            <label class="option-choice" for="revisit_yes">
+              <input type="radio" name="revisit" id="revisit_yes" value="yes" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Yes</span>
+            </label>
+            <label class="option-choice" for="revisit_maybe">
+              <input type="radio" name="revisit" id="revisit_maybe" value="maybe" required>
+              <span class="checkbox-visual" aria-hidden="true"></span>
+              <span class="option-text">Maybe</span>
+            </label>
+          </div>
+          <small class="field-error" id="revisitError" hidden>Please choose an option.</small>
+        </fieldset>
+
+      </div>
 
       <!-- Overall rating -->
       <section class="field-group rating-section">
@@ -107,6 +293,16 @@
 
       <p class="form-footnote">Every response helps our castle kitchen serve you better. ✦</p>
     </form>
+
+    <!-- ============ THANK YOU SCREEN (shown after successful submit) ============ -->
+    <section id="thankYouScreen" class="thank-you" hidden>
+      <div class="thank-you-crown" aria-hidden="true">
+        <img src="assets/crown.png" alt="" class="crown-img">
+      </div>
+      <h2 class="thank-you-title">Thank You!</h2>
+      <p class="thank-you-message">Your feedback has been received with gratitude.<br>Thanks for dining with us — we can't wait to welcome you back. ♥</p>
+      <button type="button" class="btn btn-ghost" id="submitAnotherBtn">Submit another response</button>
+    </section>
 
     <div class="corner corner-bl" aria-hidden="true"></div>
     <div class="corner corner-br" aria-hidden="true"></div>
